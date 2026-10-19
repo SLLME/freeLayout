@@ -1,0 +1,62 @@
+{
+  "name": "@cjnkm/vue-free-layout",
+  "version": "0.1.0",
+  "description": "A flexible Vue 3 app-shell layout (header + sidebar + content + footer). Every region can be hidden, resized, collapsed or moved.",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "vue",
+    "vue3",
+    "layout",
+    "app-shell",
+    "admin",
+    "sidebar",
+    "header",
+    "footer",
+    "router-view"
+  ],
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "./dist/vue-free-layout.umd.cjs",
+  "module": "./dist/vue-free-layout.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/vue-free-layout.js",
+      "require": "./dist/vue-free-layout.umd.cjs"
+    },
+    "./style.css": "./dist/style.css",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "scripts": {
+    "dev": "vite --config vite.demo.config.ts",
+    "build": "vite build",
+    "build:demo": "vite build --config vite.demo.config.ts && node scripts/inline-demo.mjs",
+    "preview": "vite preview --config vite.demo.config.ts",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "vue": "^3.3.0"
+  },
+  "devDependencies": {
+    "@element-plus/icons-vue": "^2.3.2",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "element-plus": "^2.14.7",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7",
+    "vite-plugin-dts": "^4.4.0",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0",
+    "vue-tsc": "^2.2.0"
+  }
+}

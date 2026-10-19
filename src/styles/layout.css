@@ -1,0 +1,525 @@
+/* ==========================================================================
+   vue-free-layout — app shell styles
+   Everything is scoped under `.fl-layout`, nothing leaks into your app.
+   ========================================================================== */
+
+.fl-layout {
+  /* ---- geometry (overridden inline from props) ---- */
+  --fl-header-height: 56px;
+  --fl-sidebar-width: 240px;
+  --fl-sidebar-collapsed-width: 64px;
+  --fl-footer-height: 44px;
+  --fl-content-padding: 20px;
+  --fl-sidebar-padding: 8px;
+  --fl-sticky-top: 0px;
+  --fl-height: 100vh;
+  --fl-min-height: 100vh;
+
+  /* ---- rhythm ---- */
+  --fl-radius: 10px;
+  --fl-radius-sm: 8px;
+  --fl-duration: 0.22s;
+  --fl-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --fl-z-header: 30;
+  --fl-z-sidebar: 40;
+  --fl-z-backdrop: 39;
+
+  /* ---- light palette ---- */
+  --fl-bg: #f3f5f9;
+  --fl-surface: #ffffff;
+  --fl-header-bg: var(--fl-surface);
+  --fl-sidebar-bg: var(--fl-surface);
+  --fl-footer-bg: var(--fl-surface);
+  --fl-content-bg: transparent;
+  --fl-text: #1b1f27;
+  --fl-text-weak: #6b7280;
+  --fl-text-faint: #9aa3b2;
+  --fl-border-color: #e6e8ee;
+  --fl-primary: #2563eb;
+  --fl-primary-weak: #eef3ff;
+  --fl-hover: rgba(15, 23, 42, 0.05);
+  --fl-scrollbar: rgba(15, 23, 42, 0.18);
+  --fl-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
+  --fl-shadow-drawer: 0 12px 40px rgba(16, 24, 40, 0.18);
+  --fl-font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--fl-height);
+  min-height: 0;
+  overflow: hidden;
+  background: var(--fl-bg);
+  color: var(--fl-text);
+  font-family: var(--fl-font);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fl-layout *,
+.fl-layout *::before,
+.fl-layout *::after {
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.fl-header {
+  position: relative;
+  z-index: var(--fl-z-header);
+  display: flex;
+  flex: 0 0 auto;
+  align-items: stretch;
+  height: var(--fl-header-height);
+  background: var(--fl-header-bg);
+}
+
+.fl-header.is-bordered {
+  border-bottom: 1px solid var(--fl-border-color);
+}
+
+.fl-header.is-bottom.is-bordered {
+  border-bottom: 0;
+  border-top: 1px solid var(--fl-border-color);
+}
+
+.fl-header__logo {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 10px;
+  align-items: center;
+  width: var(--fl-logo-width, var(--fl-sidebar-width));
+  padding: 0 18px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.fl-layout.is-collapsed .fl-header__logo {
+  width: var(--fl-logo-width, var(--fl-sidebar-collapsed-width));
+}
+
+.fl-logo__mark {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  background: linear-gradient(135deg, var(--fl-primary), color-mix(in srgb, var(--fl-primary) 55%, #7c3aed));
+  border-radius: 9px;
+}
+
+.fl-logo__text {
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  text-overflow: ellipsis;
+}
+
+.fl-header__main {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 0 16px;
+}
+
+.fl-header__left,
+.fl-header__right {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.fl-header__right {
+  margin-left: auto;
+}
+
+.fl-header__nav {
+  display: flex;
+  flex: 1 1 auto;
+  gap: 4px;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Body / sidebar / content
+   ========================================================================== */
+
+.fl-body {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.fl-sidebar {
+  position: relative;
+  z-index: var(--fl-z-sidebar);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  width: var(--fl-sidebar-width);
+  min-width: 0;
+  background: var(--fl-sidebar-bg);
+}
+
+.fl-sidebar.is-bordered {
+  border-right: 1px solid var(--fl-border-color);
+}
+
+.fl-layout.is-sidebar-right .fl-sidebar {
+  order: 2;
+}
+
+.fl-layout.is-sidebar-right .fl-content-col {
+  order: 1;
+}
+
+.fl-layout.is-sidebar-right .fl-sidebar.is-bordered {
+  border-right: 0;
+  border-left: 1px solid var(--fl-border-color);
+}
+
+.fl-layout.is-collapsed .fl-sidebar {
+  width: var(--fl-sidebar-collapsed-width);
+}
+
+.fl-sidebar__head {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-end;
+  height: var(--fl-header-height);
+  padding: 0 12px;
+}
+
+.fl-layout.is-collapsed .fl-sidebar__head {
+  justify-content: center;
+  padding: 0;
+}
+
+.fl-sidebar__menu {
+  flex: 1 1 auto;
+  padding: var(--fl-sidebar-padding);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.fl-sidebar__foot {
+  flex: 0 0 auto;
+  padding: var(--fl-sidebar-padding);
+  border-top: 1px solid var(--fl-border-color);
+}
+
+.fl-layout.is-collapsed .fl-sidebar__menu,
+.fl-layout.is-collapsed .fl-sidebar__foot {
+  overflow-x: hidden;
+}
+
+/* Collapse handle */
+.fl-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  color: var(--fl-text-weak);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: var(--fl-radius-sm);
+  transition: background var(--fl-duration) var(--fl-ease), color var(--fl-duration) var(--fl-ease);
+}
+
+.fl-toggle:hover {
+  color: var(--fl-text);
+  background: var(--fl-hover);
+}
+
+.fl-toggle__icon {
+  width: 18px;
+  height: 18px;
+  transition: transform var(--fl-duration) var(--fl-ease);
+}
+
+.fl-layout.is-collapsed .fl-toggle__icon,
+.fl-layout.is-sidebar-right .fl-toggle__icon {
+  transform: rotate(180deg);
+}
+
+.fl-layout.is-sidebar-right.is-collapsed .fl-toggle__icon {
+  transform: rotate(0deg);
+}
+
+/* Content column: holds the scrollable content plus a non-full-width footer */
+.fl-content-col {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Content */
+.fl-content {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  padding: var(--fl-content-padding);
+  background: var(--fl-content-bg);
+}
+
+.fl-content.is-scrollable {
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.fl-content.is-centered > .fl-content__inner {
+  max-width: var(--fl-content-max-width);
+  margin: 0 auto;
+}
+
+.fl-content__inner {
+  min-height: 100%;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.fl-footer {
+  position: relative;
+  z-index: var(--fl-z-header);
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  height: var(--fl-footer-height);
+  padding: 0 var(--fl-content-padding);
+  font-size: 12px;
+  color: var(--fl-text-weak);
+  background: var(--fl-footer-bg);
+}
+
+.fl-footer.is-bordered {
+  border-top: 1px solid var(--fl-border-color);
+}
+
+.fl-footer.is-align-left {
+  justify-content: flex-start;
+}
+
+.fl-footer.is-align-center {
+  justify-content: center;
+}
+
+.fl-footer.is-align-right {
+  justify-content: flex-end;
+}
+
+/* ==========================================================================
+   Page scroll mode
+   ========================================================================== */
+
+.fl-layout[data-scroll='page'] {
+  height: auto;
+  min-height: var(--fl-min-height);
+  overflow: visible;
+}
+
+.fl-layout[data-scroll='page'] .fl-header.is-sticky {
+  position: sticky;
+  top: 0;
+}
+
+.fl-layout[data-scroll='page'] .fl-footer.is-sticky {
+  position: sticky;
+  bottom: 0;
+}
+
+.fl-layout[data-scroll='page'] .fl-sidebar.is-sticky {
+  position: sticky;
+  top: var(--fl-sticky-top);
+  align-self: flex-start;
+  min-height: calc(100vh - var(--fl-sticky-top));
+  max-height: calc(100vh - var(--fl-sticky-top));
+}
+
+/* ==========================================================================
+   Mobile overlay drawer
+   ========================================================================== */
+
+.fl-layout.is-overlay .fl-sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--fl-z-sidebar);
+  width: var(--fl-sidebar-width);
+  max-width: 86vw;
+  transform: translateX(-100%);
+  box-shadow: var(--fl-shadow-drawer);
+}
+
+.fl-layout.is-overlay .fl-sidebar.is-bordered {
+  border-right: 1px solid var(--fl-border-color);
+}
+
+.fl-layout.is-overlay.is-sidebar-right .fl-sidebar {
+  right: 0;
+  left: auto;
+  transform: translateX(100%);
+}
+
+.fl-layout.is-overlay.is-open .fl-sidebar {
+  transform: translateX(0);
+}
+
+/* The drawer never shows the collapsed rail. */
+.fl-layout.is-overlay.is-collapsed .fl-sidebar {
+  width: var(--fl-sidebar-width);
+}
+
+.fl-layout.is-overlay.is-collapsed .fl-sidebar__head {
+  justify-content: flex-end;
+  padding: 0 12px;
+}
+
+/* The drawer is an overlay, so the logo keeps its natural width on mobile. */
+.fl-layout.is-overlay .fl-header__logo,
+.fl-layout.is-overlay.is-collapsed .fl-header__logo {
+  width: auto;
+  padding-right: 4px;
+}
+
+.fl-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--fl-z-backdrop);
+  background: rgba(15, 23, 42, 0.42);
+  animation: fl-fade-in 0.18s var(--fl-ease);
+}
+
+.fl-mobile-trigger {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  color: var(--fl-text);
+  cursor: pointer;
+  background: var(--fl-surface);
+  border: 1px solid var(--fl-border-color);
+  border-radius: 10px;
+  box-shadow: var(--fl-shadow);
+}
+
+.fl-mobile-trigger svg {
+  width: 18px;
+  height: 18px;
+}
+
+@keyframes fl-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   Transitions (disabled with :transition="false")
+   ========================================================================== */
+
+.fl-layout.is-transition .fl-sidebar,
+.fl-layout.is-transition .fl-header__logo {
+  transition: width var(--fl-duration) var(--fl-ease), transform var(--fl-duration) var(--fl-ease);
+}
+
+/* ==========================================================================
+   Dark theme
+   ========================================================================== */
+
+.fl-layout[data-theme='dark'] {
+  --fl-bg: #0d1117;
+  --fl-surface: #151b24;
+  --fl-header-bg: #151b24;
+  --fl-sidebar-bg: #151b24;
+  --fl-footer-bg: #151b24;
+  --fl-text: #e7ecf3;
+  --fl-text-weak: #99a4b6;
+  --fl-text-faint: #6f7b8d;
+  --fl-border-color: #232b38;
+  --fl-primary: #4f8cff;
+  --fl-primary-weak: rgba(79, 140, 255, 0.14);
+  --fl-hover: rgba(255, 255, 255, 0.07);
+  --fl-scrollbar: rgba(255, 255, 255, 0.2);
+  --fl-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --fl-shadow-drawer: 0 16px 48px rgba(0, 0, 0, 0.55);
+}
+
+/* ==========================================================================
+   Misc
+   ========================================================================== */
+
+.fl-layout :focus-visible {
+  outline: 2px solid var(--fl-primary);
+  outline-offset: 2px;
+}
+
+.fl-sidebar__menu,
+.fl-content {
+  scrollbar-width: thin;
+  scrollbar-color: var(--fl-scrollbar) transparent;
+}
+
+.fl-sidebar__menu::-webkit-scrollbar,
+.fl-content::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.fl-sidebar__menu::-webkit-scrollbar-thumb,
+.fl-content::-webkit-scrollbar-thumb {
+  background: var(--fl-scrollbar);
+  background-clip: content-box;
+  border: 2px solid transparent;
+  border-radius: 8px;
+}
+
+.fl-sidebar__menu::-webkit-scrollbar-track,
+.fl-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fl-layout.is-transition .fl-sidebar,
+  .fl-layout.is-transition .fl-header__logo,
+  .fl-toggle__icon {
+    transition: none;
+  }
+}
